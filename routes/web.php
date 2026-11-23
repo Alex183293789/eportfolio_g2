@@ -3,21 +3,16 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/', function () {
-     return 'Portada del ePortfolio';
- });
-
+    return view('home');
+})->name('home');
 
 Route::prefix('evidencias')->name('evidencias.')->group(function () {
     Route::get('/', function () {
-        return 'Listado de evidencias';
+        return view('evidencias.index');
     })->name('index');
 
     Route::get('/show/{id}', function ($id) {
-        return 'Evidencia ' . e($id);
+        return view('evidencias.show', ['id' => $id]);
     })->whereNumber('id')->name('show');
 
     Route::get('/create', function () {
@@ -29,14 +24,10 @@ Route::prefix('evidencias')->name('evidencias.')->group(function () {
     })->whereNumber('id')->name('edit');
 });
 
-Route::get('/perfil/{id?}', function ($id = null){
-    if ($id) {
-        return 'Perfil del usuario ' . e($id);
-    } else {
-        return 'Mi perfil';
-    }
- })->whereNumber('id')->name('perfil');
+Route::get('/perfil/{id?}', function ($id = null) {
+    return view('perfil', ['id' => $id]);
+})->whereNumber('id')->name('perfil');
 
- Route::get('acerca', function () {
-     return ['centro' => config('eportfolio.centro'), 'aplicacion' => config('app.name')];
- })->name('acerca');
+Route::get('acerca', function () {
+    return ['centro' => config('eportfolio.centro'), 'aplicacion' => config('app.name')];
+})->name('acerca');
